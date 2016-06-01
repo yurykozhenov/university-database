@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% set active_page = "subjects" %}
+
+{% block title %}Subjects{% endblock %}
+
+{% block content %}
+<a href="/{{ active_page }}/new" class="btn btn-success">Створити новий запис</a>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Назва предмета</th>
+        <th>Викладач</th>
+        <th>Керування</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for subject in subjects %}
+        <tr>
+          <td><a href="/subjects/{{ subject.id }}">{{ subject.id }}</a></td>
+          <td>{{ subject.name }}</td>
+          <td><a href="/teachers/{{ subject.teacher_id }}">{{ subject.teacher_id }}</a></td>
+          <td>
+            <a href="/{{ active_page }}/edit/{{ subject.id }}" class="btn btn-info">Змінити</a>
+            <a href="/{{ active_page }}" class="btn btn-danger">Видалити</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% set active_page = "marks" %}
+
+{% block title %}Marks{% endblock %}
+
+{% block content %}
+<a href="/{{ active_page }}/new" class="btn btn-success">Створити новий запис</a>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Предмет</th>
+        <th>Студент</th>
+        <th>Оцінка</th>
+        <th>Керування</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for mark in marks %}
+        <tr>
+          <td><a href="/{{ active_page }}/{{ mark.id }}">{{ mark.id }}</a></td>
+          <td><a href="/subjects/{{ mark.subject_id }}">{{ mark.subject_id }}</a></td>
+          <td><a href="/students/{{ mark.student_id }}">{{ mark.student_id }}</a></td>
+          <td>{{ mark.mark }}</td>
+          <td>
+            <a href="/{{ active_page }}/edit/{{ mark.id }}" class="btn btn-info">Змінити</a>
+            <a href="/{{ active_page }}" class="btn btn-danger">Видалити</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

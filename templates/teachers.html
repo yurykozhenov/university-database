@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% set active_page = "teachers" %}
+
+{% block title %}Teachers{% endblock %}
+
+{% block content %}
+<a href="/{{ active_page }}/new" class="btn btn-success">Створити новий запис</a>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Прізвище</th>
+        <th>Ім'я</th>
+        <th>По-батькові</th>
+        <th>Кафедра</th>
+        <th>Посада</th>
+        <th>Керування</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for teacher in teachers %}
+        <tr>
+          <td><a href="/teachers/{{ teacher.id }}">{{ teacher.id }}</a></td>
+          <td>{{ teacher.last_name }}</td>
+          <td>{{ teacher.first_name }}</td>
+          <td>{{ teacher.patronymic }}</td>
+          <td>{{ teacher.department }}</td>
+          <td>{{ teacher.position }}</td>
+          <td>
+            <a href="/{{ active_page }}/edit/{{ teacher.id }}" class="btn btn-info">Змінити</a>
+            <a href="/{{ active_page }}" class="btn btn-danger">Видалити</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
