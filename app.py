@@ -1,9 +1,12 @@
-from flask import Flask, render_template
+from flask import (Flask, render_template, redirect, flash)
 
 import models
+import forms
 
 
 app = Flask(__name__)
+# Secret key for CSRF protection to work
+app.secret_key = 'sfdp[ogdsohg53jt0438jk0=alsojdohgfdgpwpdfjhvc8oxhvsfj]'
 
 
 @app.route("/")
@@ -18,6 +21,25 @@ def students_list(student_id=None):
         students = models.Student.select()
 
     return render_template('students.html', students=students)
+
+
+@app.route("/students/new", methods=('GET', 'POST'))
+def new_student():
+    form = forms.StudentForm()
+
+    if form.validate_on_submit():
+        models.Student.create(
+            last_name=form.last_name.data.strip().capitalize(),
+            first_name=form.first_name.data.strip().capitalize(),
+            patronymic=form.patronymic.data.strip().capitalize(),
+            group=form.group.data.strip().upper(),
+            grade=form.grade.data
+        )
+
+        flash("Запис успішно створенний!", "success")
+        return redirect('/students')
+
+    return render_template('students_new.html', form=form)
 
 
 @app.route("/teachers")

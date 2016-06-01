@@ -10,16 +10,20 @@ from faker import Factory
 DATABASE = SqliteDatabase('university.db')
 
 
-class Student(Model):
+class BaseModel(Model):
+    """Base model with some meta information"""
+    class Meta:
+        database = DATABASE
+        order_by = ('-id',)
+
+
+class Student(BaseModel):
     """Student model"""
     last_name = CharField()
     first_name = CharField()
     patronymic = CharField()
     group = CharField()
     grade = SmallIntegerField(constraints=[Check('grade > 0 AND grade < 6')])
-
-    class Meta:
-        database = DATABASE
 
     @classmethod
     def create_random_student(cls):
@@ -58,16 +62,13 @@ class Student(Model):
             )
 
 
-class Teacher(Model):
+class Teacher(BaseModel):
     """Teacher model"""
     last_name = CharField()
     first_name = CharField()
     patronymic = CharField()
     department = CharField(null=True)
     position = CharField(null=True)
-
-    class Meta:
-        database = DATABASE
 
     @classmethod
     def create_random_teacher(cls):
@@ -109,13 +110,10 @@ class Teacher(Model):
             )
 
 
-class Subject(Model):
+class Subject(BaseModel):
     """Subject model"""
     name = CharField()
     teacher = ForeignKeyField(Teacher, related_name='subjects', null=True)
-
-    class Meta:
-        database = DATABASE
 
     @classmethod
     def create_random_subject(cls):
@@ -129,14 +127,11 @@ class Subject(Model):
         )
 
 
-class Mark(Model):
+class Mark(BaseModel):
     """Mark model"""
     subject = ForeignKeyField(Subject, related_name='marks')
     student = ForeignKeyField(Student, related_name='marks')
     mark = IntegerField()
-
-    class Meta:
-        database = DATABASE
 
     @classmethod
     def create_random_mark(cls):
