@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% set active_page = "students" %}
+
+{% block title %}New student{% endblock %}
+
+{% from 'macros_forms.html' import render_field %}
+
+{% block content %}
+<form method="POST" action="" role="form" class="well">
+  {{ form.hidden_tag() }}
+  {% for field in form if field.widget.input_type != 'hidden' %}
+    {{ render_field(field, value=student) }}
+  {% endfor %}
+  <input type="submit" id="submit" class="btn btn-default" value="Підтвердити" />
+</form>
+{% endblock %}

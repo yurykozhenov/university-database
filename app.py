@@ -46,6 +46,28 @@ def new_student():
     return render_template('students_new.html', form=form)
 
 
+@app.route("/students/edit/<student_id>", methods=('GET', 'POST'))
+def edit_student(student_id):
+    form = forms.StudentForm()
+
+    student = models.Student.get(models.Student.id == student_id)
+
+    if form.validate_on_submit():
+        student.last_name = form.last_name.data.strip()
+        student.first_name = form.first_name.data.strip()
+        student.patronymic = form.patronymic.data.strip()
+        student.group = form.group.data.strip().upper()
+        student.grade = form.grade.data
+
+        student.save()
+
+        flash("Запис {} успішно змінений!".format(
+            student.id), "success")
+        return redirect('/students')
+
+    return render_template('students_edit.html', form=form, student=student)
+
+
 @app.route("/teachers")
 @app.route("/teachers/<teacher_id>")
 def teachers_list(teacher_id=None):

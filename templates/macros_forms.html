@@ -2,11 +2,24 @@
 <div class="form-group">
   {{ field.label }}
 
-  {% if field.flags.required %}
-    {{ field(class="form-control", placeholder=field.label.text, required="") }}
+  {% if kwargs.value %}
+
+    {% if field.flags.required %}
+      {{ field(class="form-control", placeholder=field.label.text, value=kwargs.value[field.id], required="") }}
+    {% else %}
+      {{ field(class="form-control", placeholder=field.label.text, value=kwargs.value[field.id]) }}
+    {% endif %}
+
   {% else %}
-    {{ field(class="form-control", placeholder=field.label.text) }}
+    {% if field.flags.required %}
+      {{ field(class="form-control", placeholder=field.label.text, required="") }}
+    {% else %}
+      {{ field(class="form-control", placeholder=field.label.text) }}
+    {% endif %}
+
   {% endif %}
+
+
 
   {% if field.errors %}
     <div class="errors">
