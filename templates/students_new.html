@@ -7,7 +7,7 @@
 {% from 'macros_forms.html' import render_field %}
 
 {% block content %}
-<form method="POST" action="" role="form" class="container">
+<form method="POST" action="" role="form" class="well">
   {{ form.hidden_tag() }}
   {% for field in form if field.widget.input_type != 'hidden' %}
     {{ render_field(field) }}
