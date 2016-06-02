@@ -1,4 +1,5 @@
-from flask import (Flask, render_template, redirect, flash)
+from flask import (Flask, render_template, redirect, flash, request)
+from peewee import CharField
 
 import models
 import forms
@@ -15,7 +16,7 @@ def index():
 
 
 @app.route("/students")
-@app.route("/students/<student_id>")
+@app.route("/students/<int:student_id>")
 def students_list(student_id=None):
     if student_id:
         students = models.Student.select().where(
@@ -24,7 +25,34 @@ def students_list(student_id=None):
     else:
         students = models.Student.select()
 
+        for key in request.args:
+            if isinstance(getattr(models.Student, key), CharField):
+                students = students.where(
+                    getattr(models.Student, key) % request.args.get(key)
+                )
+            else:
+                students = students.where(
+                    getattr(models.Student, key) % request.args.get(key)
+                )
+
     return render_template('students.html', students=students)
+
+
+@app.route('/students/find', methods=('GET', 'POST'))
+def find_students():
+    if request.form:
+        query_list = []
+
+        for key in request.form:
+            if request.form[key] and key != 'csrf_token':
+                query_list.append("{}={}".format(key, request.form[key]))
+
+        query = "&&".join(query_list)
+
+        return redirect('/students?{}'.format(query))
+
+    form = forms.StudentForm()
+    return render_template('students_find.html', form=form)
 
 
 @app.route("/students/new", methods=('GET', 'POST'))
