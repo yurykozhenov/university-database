@@ -10,6 +10,10 @@ app.secret_key = 'sfdp[ogdsohg53jt0438jk0=alsojdohgfdgpwpdfjhvc8oxhvsfj]'
 
 
 @app.route("/")
+def index():
+    return render_template('index.html')
+
+
 @app.route("/students")
 @app.route("/students/<student_id>")
 def students_list(student_id=None):
