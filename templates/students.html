@@ -31,7 +31,7 @@
           <td>{{ student.grade }}</td>
           <td>
             <a href="/{{ active_page }}/edit/{{ student.id }}" class="btn btn-info">Змінити</a>
-            <a href="/{{ active_page }}" class="btn btn-danger">Видалити</a>
+            <a href="{{ url_for('delete_student', student_id = student.id) }}" class="btn btn-danger">Видалити</a>
           </td>
         </tr>
       {% endfor %}

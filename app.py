@@ -68,6 +68,18 @@ def edit_student(student_id):
     return render_template('students_edit.html', form=form, student=student)
 
 
+@app.route("/students/delete/<student_id>", methods=('GET', 'DELETE'))
+def delete_student(student_id):
+    student = models.Student.get(models.Student.id == student_id)
+
+    student.delete_instance()
+
+    flash("Запис {} успішно видаленний!".format(
+        student.id), "success")
+
+    return redirect('/students')
+
+
 @app.route("/teachers")
 @app.route("/teachers/<teacher_id>")
 def teachers_list(teacher_id=None):
