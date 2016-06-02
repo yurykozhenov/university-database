@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% set active_page = "students" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<a href="/{{ active_page }}/new" class="btn btn-success">Створити новий запис</a>
+<a href="/{{ active_page }}/find" class="btn btn-info">Пошук</a>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Прізвище</th>
+        <th>Ім'я</th>
+        <th>По батькові</th>
+        <th>Група</th>
+        <th>Курс</th>
+        <th>Середня оцінка</th>
+        <th>Керування</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for student in students %}
+        <tr>
+          <td><a href="/students/{{ student.id }}">{{ student.id }}</a></td>
+          <td>{{ student.last_name }}</td>
+          <td>{{ student.first_name }}</td>
+          <td>{{ student.patronymic }}</td>
+          <td>{{ student.group }}</td>
+          <td>{{ student.grade }}</td>
+          <td>{{ student.average_mark }}</td>
+          <td>
+            <a href="/{{ active_page }}/edit/{{ student.id }}" class="btn btn-info">Змінити</a>
+            <a href="{{ url_for('delete_student', student_id = student.id) }}" class="btn btn-danger">Видалити</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

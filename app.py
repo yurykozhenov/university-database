@@ -146,6 +146,25 @@ def marks_list(mark_id=None):
 
     return render_template('marks.html', marks=marks)
 
+@app.route('/students/avg_marks')
+def students_average_marks():
+    students = models.Student.get_with_average_mark()
+
+    return render_template('students_with_avg_marks.html', students=students)
+
+@app.route('/good_students')
+def good_students():
+    students = models.Student.get_good_students()
+
+    return render_template('students_with_avg_marks.html', students=students)
+
+
+@app.route('/excellent_students')
+def excellent_students():
+    students = models.Student.get_excellent_students()
+
+    return render_template('students_with_avg_marks.html', students=students)
+
 
 if __name__ == "__main__":
     models.initialize()

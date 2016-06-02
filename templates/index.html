@@ -3,5 +3,13 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-<h1 class="text-center">Hello world!</h1>
+<h1 class="text-center">University Database Project</h1>
+
+<div class="list-group">
+  <a href="/students/avg_marks" class="list-group-item">Середній бал студентів</a>
+  <a href="/good_students" class="list-group-item">Студенти, якій отримують стипендію (середній бал &gt;= 4)</a>
+  <a href="/excellent_students" class="list-group-item">Відмінники (середній бал = 5)</a>
+  <a href="/students?grade=1" class="list-group-item">Першокурсники</a>
+  <a href="/students?grade=5" class="list-group-item">П'ятикурсники</a>
+</div>
 {% endblock %}

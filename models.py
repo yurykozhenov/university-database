@@ -2,7 +2,7 @@ import random
 
 from peewee import (Model, SqliteDatabase, CharField, IntegerField,
                     SmallIntegerField, ForeignKeyField, Check,
-                    OperationalError)
+                    OperationalError, fn, JOIN)
 
 from faker import Factory
 
@@ -24,6 +24,32 @@ class Student(BaseModel):
     patronymic = CharField()
     group = CharField()
     grade = SmallIntegerField(constraints=[Check('grade > 0 AND grade < 6')])
+
+    @classmethod
+    def get_with_average_mark(cls):
+        return (Student
+                .select(Student, fn.Avg(Mark.mark).alias('average_mark'))
+                .join(Mark, JOIN.LEFT_OUTER)
+                .group_by(Student)
+                .order_by(fn.Avg(Mark.mark).desc()))
+
+    @classmethod
+    def get_good_students(cls):
+        return (Student
+                .select(Student, fn.Avg(Mark.mark).alias('average_mark'))
+                .join(Mark, JOIN.LEFT_OUTER)
+                .group_by(Student)
+                .having(fn.Avg(Mark.mark) >= 4)
+                .order_by(fn.Avg(Mark.mark).desc()))
+
+    @classmethod
+    def get_excellent_students(cls):
+        return (Student
+                .select(Student, fn.Avg(Mark.mark).alias('average_mark'))
+                .join(Mark, JOIN.LEFT_OUTER)
+                .group_by(Student)
+                .having(fn.Avg(Mark.mark) == 5)
+                .order_by(fn.Avg(Mark.mark).desc()))
 
     @classmethod
     def create_random_student(cls):
@@ -85,7 +111,9 @@ class Teacher(BaseModel):
 
         departments = [
             "Комп'ютерних наук",
-            "Автоматизації, електротехнічних та комп'ютерно-інтегрованих технологій",
+            "Автоматизації, електротехнічних та "
+            "комп'ютерно-інтегрованих "
+            "технологій",
             "Вищої математики",
             "Обчислювальної техніки",
             "Прикладної математики"
@@ -116,14 +144,14 @@ class Subject(BaseModel):
     teacher = ForeignKeyField(Teacher, related_name='subjects', null=True)
 
     @classmethod
-    def create_random_subject(cls):
+    def create_random_subject(cls, n_teachers=10):
         """Fill database with random subject"""
 
         fake = Factory.create('uk_UA')
 
         Subject.create(
             name=fake.word().capitalize(),
-            teacher=random.randint(1, 10)
+            teacher=random.randint(1, n_teachers)
         )
 
 
@@ -134,13 +162,13 @@ class Mark(BaseModel):
     mark = IntegerField()
 
     @classmethod
-    def create_random_mark(cls):
+    def create_random_mark(cls, n_subjects=10, n_students=10):
         """Fill database with random mark"""
 
         Mark.create(
-            subject=random.randint(1, 10),
-            student=random.randint(1, 10),
-            mark=random.randint(1, 5)
+            subject=random.randint(1, n_subjects),
+            student=random.randint(1, n_students),
+            mark=random.randint(2, 5)
         )
 
 
@@ -151,26 +179,35 @@ def initialize():
 
     Fill created tables with some test data
     """
+    DATABASE.connect()
+
     try:
-        DATABASE.connect()
+        print("Initializing database...")
         DATABASE.create_tables([Student, Teacher, Subject, Mark])
+        fill_db(40, 20, 30, 200)
+        print("Database was successfully initialized!")
 
-        fill_db(10)
-
-        DATABASE.close()
     except OperationalError:
-        print("Database already created")
+        print("Database already initialized!")
+
+    DATABASE.close()
 
 
-def fill_db(n):
+def fill_db(n_students=0, n_teachers=0, n_subjects=0, n_marks=0):
     """Fill database with dummy data
 
-    n -> number of rows created in each table
+    n_* -> number of rows created in table *
 
     """
 
-    for _ in range(n):
+    for _ in range(n_students):
         Student.create_random_student()
+
+    for _ in range(n_teachers):
         Teacher.create_random_teacher()
-        Subject.create_random_subject()
-        Mark.create_random_mark()
+
+    for _ in range(n_subjects):
+        Subject.create_random_subject(n_teachers)
+
+    for _ in range(n_marks):
+        Mark.create_random_mark(n_subjects, n_students)
