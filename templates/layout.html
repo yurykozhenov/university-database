@@ -21,7 +21,7 @@
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <title>{% block title %} | {% endblock %}University Database</title>
+    <title>{% block title %}{% endblock %} | University Database</title>
   </head>
   <body>
     {% set navigation_bar = [
@@ -31,7 +31,7 @@
         ('/marks', 'marks', 'Оцінки')
     ] -%}
 
-    {% set active_page = active_page|default('students') -%}
+    {% set active_page = active_page|default(None) -%}
 
     <header>
       <nav class="navbar navbar-inverse navbar-static-top">
