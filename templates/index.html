@@ -12,4 +12,12 @@
   <a href="/students?grade=1" class="list-group-item">Першокурсники</a>
   <a href="/students?grade=5" class="list-group-item">П'ятикурсники</a>
 </div>
+
+<h2 class="text-center">Динамічний запит</h2>
+<form method="POST" action="/" role="form" class="well">
+  <div class="form-group">
+    <label for="query">SQL Запит</label>
+    <input type="text" name="query" id="query" placehorder="Введіть ваш SQL запит" />
+    <input type="submit" value="Виконати" class="btn btn-default" />
+</form>
 {% endblock %}

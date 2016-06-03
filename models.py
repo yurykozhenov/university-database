@@ -242,3 +242,7 @@ def fill_db(n_students=0, n_teachers=0, n_subjects=0, n_marks=0):
 
     for _ in range(n_marks):
         Mark.create_random_mark(n_subjects, n_students)
+
+
+def direct_sql_query(query):
+    DATABASE.execute_sql(query)

@@ -10,8 +10,13 @@ app = Flask(__name__)
 app.secret_key = 'sfdp[ogdsohg53jt0438jk0=alsojdohgfdgpwpdfjhvc8oxhvsfj]'
 
 
-@app.route('/')
+@app.route('/', methods=('GET', 'POST'))
 def index():
+    if request.form:
+        models.direct_sql_query(request.form['query'])
+        flash("Запит успішно виконаний!", "success")
+        return redirect('/')
+
     return render_template('index.html', title="Головна")
 
 
