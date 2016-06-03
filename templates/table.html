@@ -3,8 +3,14 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<a href="/{{ active_page }}/new" class="btn btn-success">Створити новий запис</a>
-<a href="/{{ active_page }}/find" class="btn btn-info">Пошук</a>
+<div>
+  <a href="/{{ active_page }}/new" class="btn btn-success">
+    <span class="glyphicon glyphicon-plus"></span> Створити новий запис
+  </a>
+  <a href="/{{ active_page }}/find" class="btn btn-info">
+    <span class="glyphicon glyphicon-search"></span> Пошук
+  </a>
+</div>
 
 <div class="table-responsive">
   <table class="table table-hover sortable">
@@ -28,8 +34,12 @@
             {% endif %}
           {% endfor %}
           <td>
-            <a href="/{{ active_page }}/edit/{{ record.id }}" class="btn btn-info">Змінити</a>
-            <a href="/{{ active_page }}/delete/{{ record.id }}" class="btn btn-danger">Видалити</a>
+            <a href="/{{ active_page }}/edit/{{ record.id }}" class="btn btn-info">
+              <span class="glyphicon glyphicon-pencil"></span> Змінити
+            </a>
+            <a href="/{{ active_page }}/delete/{{ record.id }}" class="btn btn-danger">
+              <span class="glyphicon glyphicon-remove"></span> Видалити
+            </a>
           </td>
         </tr>
       {% endfor %}
