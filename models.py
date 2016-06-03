@@ -190,7 +190,7 @@ class Mark(BaseModel):
 
     subject = ForeignKeyField(Subject, related_name='marks')
     student = ForeignKeyField(Student, related_name='marks')
-    mark = IntegerField()
+    mark = IntegerField(constraints=[Check('grade > 0 AND grade < 6')])
 
     @classmethod
     def create_random_mark(cls, n_subjects=10, n_students=10):

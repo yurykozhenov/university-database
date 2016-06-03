@@ -23,5 +23,37 @@ class StudentForm(Form):
     grade = IntegerField("Курс", validators=[
         DataRequired(),
         NumberRange(min=1, max=5,
-                    message=("Курс має бути між 1 та 5"))
+                    message=("Курс має бути від 1 до 5"))
+    ])
+
+
+class TeacherForm(Form):
+    last_name = StringField("Прізвище", validators=[DataRequired()])
+
+    first_name = StringField("Ім'я", validators=[DataRequired()])
+
+    patronymic = StringField("По батькові",
+                             validators=[DataRequired()])
+
+    department = StringField("Кафедра")
+
+    position = StringField("Посада")
+
+
+class SubjectForm(Form):
+    name = StringField("Назва предмета",
+                       validators=[DataRequired()])
+
+    teacher = IntegerField("Викладач")
+
+
+class MarkForm(Form):
+    subject = IntegerField("Предмет")
+
+    student = IntegerField("Студент")
+
+    mark = IntegerField("Оцінка", validators=[
+        DataRequired(),
+        NumberRange(min=1, max=5,
+                    message=("Оцінка має бути від 1 до 5"))
     ])
