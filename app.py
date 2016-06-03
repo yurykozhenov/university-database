@@ -35,7 +35,11 @@ def students_list(student_id=None):
                     getattr(models.Student, key) % request.args.get(key)
                 )
 
-    return render_template('students.html', students=students)
+    return render_template('table.html',
+                           title="Студенти",
+                           active_page="students",
+                           fields=models.Student.fields,
+                           records=students)
 
 
 @app.route('/students/find', methods=('GET', 'POST'))
@@ -109,8 +113,8 @@ def delete_student(student_id):
 
 
 @app.route("/teachers")
-@app.route("/teachers/<teacher_id>")
-def teachers_list(teacher_id=None):
+@app.route("/teachers/<int:teacher_id>")
+def teacher_list(teacher_id=None):
     if teacher_id:
         teachers = models.Teacher.select().where(
             models.Teacher.id == teacher_id
@@ -118,11 +122,25 @@ def teachers_list(teacher_id=None):
     else:
         teachers = models.Teacher.select()
 
-    return render_template('teachers.html', teachers=teachers)
+        for key in request.args:
+            if isinstance(getattr(models.Teacher, key), CharField):
+                teachers = teachers.where(
+                    getattr(models.Teacher, key) % request.args.get(key)
+                )
+            else:
+                teachers = teachers.where(
+                    getattr(models.Teacher, key) % request.args.get(key)
+                )
+
+    return render_template('table.html',
+                           title="Викладачі",
+                           active_page="teachers",
+                           fields=models.Teacher.fields,
+                           records=teachers)
 
 
 @app.route("/subjects")
-@app.route("/subjects/<subject_id>")
+@app.route("/subjects/<int:subject_id>")
 def subjects_list(subject_id=None):
     if subject_id:
         subjects = models.Subject.select().where(
@@ -131,7 +149,21 @@ def subjects_list(subject_id=None):
     else:
         subjects = models.Subject.select()
 
-    return render_template('subjects.html', subjects=subjects)
+        for key in request.args:
+            if isinstance(getattr(models.Subject, key), CharField):
+                subjects = subjects.where(
+                    getattr(models.Subject, key) % request.args.get(key)
+                )
+            else:
+                subjects = subjects.where(
+                    getattr(models.Subject, key) % request.args.get(key)
+                )
+
+        return render_template('table.html',
+                               title="Предмети",
+                               active_page="subjects",
+                               fields=models.Subject.fields,
+                               records=subjects)
 
 
 @app.route("/marks")
@@ -144,13 +176,29 @@ def marks_list(mark_id=None):
     else:
         marks = models.Mark.select()
 
-    return render_template('marks.html', marks=marks)
+        for key in request.args:
+            if isinstance(getattr(models.Mark, key), CharField):
+                marks = marks.where(
+                    getattr(models.Mark, key) % request.args.get(key)
+                )
+            else:
+                marks = marks.where(
+                    getattr(models.Mark, key) % request.args.get(key)
+                )
+
+        return render_template('table.html',
+                               title="Оцінки",
+                               active_page="marks",
+                               fields=models.Mark.fields,
+                               records=marks)
+
 
 @app.route('/students/avg_marks')
 def students_average_marks():
     students = models.Student.get_with_average_mark()
 
     return render_template('students_with_avg_marks.html', students=students)
+
 
 @app.route('/good_students')
 def good_students():

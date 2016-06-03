@@ -19,6 +19,15 @@ class BaseModel(Model):
 
 class Student(BaseModel):
     """Student model"""
+    fields = (
+        'id',
+        'last_name',
+        'first_name',
+        'patronymic',
+        'group',
+        'grade'
+    )
+
     last_name = CharField()
     first_name = CharField()
     patronymic = CharField()
@@ -90,6 +99,15 @@ class Student(BaseModel):
 
 class Teacher(BaseModel):
     """Teacher model"""
+    fields = (
+        'id',
+        'last_name',
+        'first_name',
+        'patronymic',
+        'department',
+        'position'
+    )
+
     last_name = CharField()
     first_name = CharField()
     patronymic = CharField()
@@ -140,6 +158,12 @@ class Teacher(BaseModel):
 
 class Subject(BaseModel):
     """Subject model"""
+    fields = (
+        'id',
+        'name',
+        'teacher',
+    )
+
     name = CharField()
     teacher = ForeignKeyField(Teacher, related_name='subjects', null=True)
 
@@ -157,6 +181,13 @@ class Subject(BaseModel):
 
 class Mark(BaseModel):
     """Mark model"""
+    fields = (
+        'id',
+        'subject',
+        'student',
+        'mark'
+    )
+
     subject = ForeignKeyField(Subject, related_name='marks')
     student = ForeignKeyField(Student, related_name='marks')
     mark = IntegerField()
