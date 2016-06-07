@@ -8,7 +8,11 @@ Also, you need Flask, Peewee ORM, Faker, WTForms, Flask-WTF installed.
 ```
 pip install flask
 pip install peewee
-pip install fake-factory
 pip install wtforms
+pip install fake-factory
 pip install flask-wtf
+```
+**Or (if you inside project root directory):**
+```
+pip install -r requirements.txt
 ```
