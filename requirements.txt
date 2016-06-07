@@ -1,0 +1,5 @@
+flask==0.10.1
+peewee==2.8.1
+wtforms==2.1
+fake-factory==0.5.7
+flask-wtf==0.12
