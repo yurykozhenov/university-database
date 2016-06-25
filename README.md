@@ -1,18 +1,10 @@
 # University Database Project
 
-In order to run this app you need to have Python 3.4 installed.
+In order to run this app you need to have [Python 3](https://www.python.org/) installed.
 
-Also, you need Flask, Peewee ORM, Faker, WTForms, Flask-WTF installed. 
+Also, you need [Flask](https://github.com/pallets/flask), [Peewee ORM](https://github.com/coleifer/peewee), [Faker](https://github.com/joke2k/faker), [WTForms](https://github.com/wtforms/wtforms), [Flask-WTF](https://github.com/lepture/flask-wtf) installed. 
 
-**Run:**
-```
-pip install flask
-pip install peewee
-pip install wtforms
-pip install fake-factory
-pip install flask-wtf
-```
-**Or (if you inside project root directory):**
+**Run this command inside project directory:**
 ```
 pip install -r requirements.txt
 ```
