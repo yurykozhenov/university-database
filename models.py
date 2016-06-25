@@ -74,7 +74,7 @@ class Student(BaseModel):
             Student.create(
                 last_name=fake.last_name(),
                 first_name=fake.first_name_male(),
-                patronymic=fake.first_name_male()+"ович",
+                patronymic=fake.first_name_male() + "ович",
                 group="{}-{}{}".format(
                     random.choice(groups),
                     random_grade,
@@ -87,7 +87,7 @@ class Student(BaseModel):
             Student.create(
                 last_name=fake.last_name(),
                 first_name=fake.first_name_female(),
-                patronymic=fake.first_name_male()+"івна",
+                patronymic=fake.first_name_male() + "івна",
                 group="{}-{}{}".format(
                     random.choice(groups),
                     random_grade,
@@ -141,7 +141,7 @@ class Teacher(BaseModel):
             Teacher.create(
                 last_name=fake.last_name(),
                 first_name=fake.first_name_male(),
-                patronymic=fake.first_name_male()+"ович",
+                patronymic=fake.first_name_male() + "ович",
                 department=random.choice(departments),
                 position=random.choice(positions)
             )
@@ -150,7 +150,7 @@ class Teacher(BaseModel):
             Teacher.create(
                 last_name=fake.last_name(),
                 first_name=fake.first_name_female(),
-                patronymic=fake.first_name_male()+"івна",
+                patronymic=fake.first_name_male() + "івна",
                 department=random.choice(departments),
                 position=random.choice(positions)
             )
@@ -219,7 +219,6 @@ def initialize():
         print("Database was successfully initialized!")
     except OperationalError:
         print("Database already initialized!")
-
 
     DATABASE.close()
 
