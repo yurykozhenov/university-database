@@ -1,3 +1,5 @@
+import os
+
 from flask import (Flask, render_template, redirect, flash, request)
 
 import models
@@ -219,4 +221,5 @@ def excellent_students():
 if __name__ == "__main__":
     models.initialize()
 
-    app.run(debug=True)  # debug=True, host=8000, port='0.0.0.0'
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
