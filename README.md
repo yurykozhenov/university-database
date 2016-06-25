@@ -38,3 +38,7 @@ And then run:
 ```
 pip install -r requirements.txt
 ```
+**If you want to exit isolated enviroment:**
+```
+deactivate
+```
